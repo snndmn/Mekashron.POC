@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +25,14 @@ namespace Mekashron.POC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-        }
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                                        .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                                        options =>
+                                        {
+                                            options.LoginPath = new PathString("/authorization/login");
+                                        });
+                                        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,10 +46,11 @@ namespace Mekashron.POC
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
