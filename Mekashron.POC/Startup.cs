@@ -1,3 +1,6 @@
+using Mekashron.POC.Extensions;
+using Mekashron.POC.Infrastructure;
+using Mekashron.POC.Models.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +25,13 @@ namespace Mekashron.POC
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IConfiguration configuration = Configuration;
+
+            services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
+
+
             services.AddControllersWithViews();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -32,9 +40,12 @@ namespace Mekashron.POC
                                         {
                                             options.LoginPath = new PathString("/authorization/login");
                                         });
-                                        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            services.AddCommonInfrastructure(Configuration);
+
+            services.AddDemoUser(Configuration);
+        }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -57,7 +68,7 @@ namespace Mekashron.POC
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+            });            
         }
     }
 }

@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Mekashron.POC</title>
+    
+    <link href="~/lib/bootstrap/dist/css/bootstrap5.1.css" rel="stylesheet" />
+
+    <link href="~/css/site.css" rel="stylesheet" />
+
+    <link href="~/lib/toastr/toastr.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - Mekashron.POC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/js/Constants.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+
+    <script src="~/lib/toastr/toastr.js"></script>
+    <script src="~/js/enums/ToastrTypes.js"></script>
+    <script src="~/js/handlers/toastrHandler.js"></script>
+    <script src="~/js/enums/ResultCodes.js"></script>
+
+    <script src="~/js/pages/login.js"></script>
+
+</body>
+</html>
